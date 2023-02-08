@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "7RmfzHqVxuarxe1InHlU9wMf9yg6fU9EUlPgEwqjVaksciSd5fL0zB8+iKohvUtQJjn99wwlTf65TRXc8575vQ==",
+  "success": false,
+  "projectFilePath": "C:\\Users\\t.unen\\source\\repos\\FunctionApp1\\Models\\Models.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1108",
+      "level": "Error",
+      "message": "Cycle detected. \r\n  SalesService -> SalesService.",
+      "libraryId": "SalesService",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
+}
