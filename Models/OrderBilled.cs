@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class PlaceOrder
+    public class OrderBilled
     {
         public string Id { get; set; }
-        //public DateTime OrderDate { get; set; }
-        //public Product Products { get; set; }
-
     }
 }

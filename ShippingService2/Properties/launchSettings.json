@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "ShippingService": {
+    "ShippingService2": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7030",
+      "commandLineArgs": "--port 7021",
       "launchBrowser": false
     }
   }
