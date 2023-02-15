@@ -1,6 +1,6 @@
 ﻿namespace Models
 {
-    public class OrderBilled : IOrderEvent
+    public interface IOrderEvent
     {
         public string OrderId { get; set; }
     }
