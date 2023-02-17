@@ -5,6 +5,9 @@
     "serviceBusNamespaceName": {
       "value": "retaildemotrevor"
     },
+    "storageName": {
+      "value": "armtemplatetrevorstorage"
+    },
     "topicName": {
       "value": "trevortopic"
     },
@@ -34,6 +37,13 @@
     },
     "isOrderBilled": {
       "value": "orderbilled"
+    },
+    "blobContainer": {
+      "value": "trevorcontainer"
+    },
+    "tableName": {
+      "value": "servicebustable"
     }
+   
   }
 }
