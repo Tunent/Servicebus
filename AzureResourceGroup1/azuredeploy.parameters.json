@@ -43,6 +43,15 @@
     },
     "tableName": {
       "value": "servicebustable"
+    },
+    "functionAppNameSales": {
+      "value": "trevorsales"
+    },
+    "hostingPlanName": {
+      "value": "trevorhosting"
+    },
+    "applicationInsightsName": {
+      "value": "trevorinsight"
     }
    
   }

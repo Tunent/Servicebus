@@ -19,7 +19,7 @@ namespace BillingService
         public static async Task<ServiceBusMessage> Run(
             [ServiceBusTrigger(queueName:"billingqueue", Connection = "ServiceBusConnectionString")]
             OrderPlaced orderPlaced, ILogger logger,
-            [Blob("billing", FileAccess.Read, Connection = "AzureWebJobsStorage")]
+            [Blob("trevorcontainer", FileAccess.Read, Connection = "AzureWebJobsStorage")]
             BlobContainerClient containerClient)
         {
             logger.LogInformation($"BillingFunction queue trigger function processed message");
