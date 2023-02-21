@@ -18,7 +18,7 @@ steps:
   inputs:
     repository: $(imageName)
     command: build
-    Dockerfile: /RestAPI/Dockerfile
+    Dockerfile: RestAPI/Dockerfile
     
 
 
