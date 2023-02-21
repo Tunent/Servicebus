@@ -11,7 +11,7 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["RestAPI/RestAPI.csproj", "RestAPI/"]
+COPY ["RestAPI.csproj", "RestAPI/"]
 RUN dotnet restore "RestAPI/RestAPI.csproj"
 COPY . .
 WORKDIR "/src/RestAPI"
