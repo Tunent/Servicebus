@@ -1,17 +1,19 @@
-# First stage of multi-stage build
-FROM microsoft/aspnetcore-build AS build-env
-WORKDIR /RestAPI
+# https://hub.docker.com/_/microsoft-dotnet
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /source
 
-# copy the contents of agent working directory on host to workdir in container
-COPY . ./
-
-# dotnet commands to build, test, and publish
+# copy csproj and restore as distinct layers
+COPY *.sln .
+COPY aspnetapp/*.csproj ./aspnetapp/
 RUN dotnet restore
-RUN dotnet build -c Release
-RUN dotnet publish -c Release -o out
 
-# Second stage - Build runtime image
-FROM microsoft/aspnetcore
-WORKDIR /RestAPI
-COPY --from=build-env /RestAPI/out .
-ENTRYPOINT ["dotnet", "pipelines-dotnet-core-docker.dll"]
+# copy everything else and build app
+COPY aspnetapp/. ./aspnetapp/
+WORKDIR /source/aspnetapp
+RUN dotnet publish -c release -o /app --no-restore
+
+# final stage/image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=build /app ./
+ENTRYPOINT ["dotnet", "aspnetapp.dll"]
