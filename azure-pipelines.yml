@@ -18,7 +18,7 @@ steps:
   inputs:
     repository: $(imageName)
     command: build
-    Dockerfile: app/Dockerfile
+    Dockerfile: Dockerfile
     
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
