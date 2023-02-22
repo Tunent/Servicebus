@@ -1,23 +1,70 @@
 trigger:
 - main
+stages:
+- stage: build
+  jobs:
+  - job: run_build
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: VSBuild@1
+      inputs:
+        solution: '**/*.sln'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+        platform: 'Any CPU'
+        configuration: 'Release'
 
-pool:
-  vmImage: 'ubuntu-latest'
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
+    - task: CopyFiles@2
+      displayName: 'Copy scripts'
+      inputs:
+        contents: 'scripts/**'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
 
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(Build.SourcesDirectory)'
-    contents: '**/$(BuildConfiguration)/**/?(*.exe|*.dll|*.pdb)'
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: drop
+    - publish: '$(Build.ArtifactStagingDirectory)/scripts'
+      displayName: 'Publish script'
+      artifact: drop
+
+# - stage: test
+#   dependsOn: build
+#   jobs:
+#   - job: run_test
+#     pool:
+#       vmImage: 'windows-latest'
+#     steps:
+#     - download: current
+#       artifact: drop
+#     - task: PowerShell@2
+#       inputs:
+#         filePath: '$(Pipeline.Workspace)\drop\test.ps1'
+
+
+
+
+
+
+
+
+
+# trigger:
+# - main
+
+# pool:
+#   vmImage: 'ubuntu-latest'
+# steps:
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'build'
+#     projects: '**/*.csproj'
+
+# - task: CopyFiles@2
+#   inputs:
+#     sourceFolder: '$(Build.SourcesDirectory)'
+#     contents: '**/$(BuildConfiguration)/**/?(*.exe|*.dll|*.pdb)'
+#     targetFolder: '$(Build.ArtifactStagingDirectory)'
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     pathToPublish: '$(Build.ArtifactStagingDirectory)'
+#     artifactName: drop
     
 # steps:
 # - script: |
