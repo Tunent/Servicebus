@@ -6,23 +6,29 @@ stages:
   - job: run_build
     pool:
       vmImage: 'windows-latest'
+
     steps:
-    # - task: VSBuild@1
-    #   inputs:
-    #     solution: '**/*.sln'
-    #     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    #     platform: 'Any CPU'
-    #     configuration: 'Release'
-
-    - task: CopyFiles@2
-      displayName: 'Copy scripts'
+    - task: DotNetCoreCLI@2
       inputs:
-        contents: 'scripts/**'
-        targetFolder: '$(Build.ArtifactStagingDirectory)'
+        command: 'build'
+        projects: '**/*.csproj'
+    
+    # - task: CopyFiles@2
+    #   displayName: 'Copy scripts'
+    #   inputs:
+    #     contents: 'scripts/**'
+    #     targetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    - publish: '$(Build.ArtifactStagingDirectory)/scripts'
-      displayName: 'Publish script'
-      artifact: drop
+    # - publish: '$(Build.ArtifactStagingDirectory)/scripts'
+    #   displayName: 'Publish script'
+    #   artifact: drop
+      
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)'
+        artifactType: 'pipeline'
+        artifactName: 'drop'
 
 # - stage: test
 #   dependsOn: build
