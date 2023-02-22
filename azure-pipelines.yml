@@ -7,12 +7,12 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
-    - task: VSBuild@1
-      inputs:
-        solution: '**/*.sln'
-        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-        platform: 'Any CPU'
-        configuration: 'Release'
+    # - task: VSBuild@1
+    #   inputs:
+    #     solution: '**/*.sln'
+    #     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    #     platform: 'Any CPU'
+    #     configuration: 'Release'
 
     - task: CopyFiles@2
       displayName: 'Copy scripts'
