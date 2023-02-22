@@ -12,7 +12,7 @@ steps:
 - script: |
     dotnet restore
     dotnet build --configuration Release
-- task: UseDotNet
+- task: DotNetCoreCLI@2
   inputs:
     command: publish
     arguments: '--configuration Release --output publish_output'
