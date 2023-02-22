@@ -45,10 +45,10 @@
       "value": "servicebustable"
     },
     "functionAppNameSales": {
-      "value": "trevorsales"
+      "value": "trevorsalesservice"
     },
     "hostingPlanName": {
-      "value": "trevorhosting"
+      "value": "trevorfunctionaphostingplan"
     },
     "applicationInsightsName": {
       "value": "trevorinsight"
