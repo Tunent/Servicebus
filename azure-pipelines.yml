@@ -7,6 +7,12 @@ variables:
   value: $[variables.groupsubid] # get from Library group
 - name: web-app-name
   value: $[variables.groupwebappname] # get from Library group
+- name: functionappsalesname
+  value: $[variables.groupfunctionappsalesname] # get from Library group
+- name: functionappbillingname
+  value: $[variables.groupfunctionappbillingname] # get from Library group
+- name: functionappshippingname
+  value: $[variables.groupfunctionappshippingname] # get from Library group
 
       
 pool:
@@ -63,3 +69,11 @@ stages:
               appType: 'webAppLinux'
               WebAppName: '$(web-app-name)'
               packageForLinux: '$(Pipeline.Workspace)/RestAPI.zip'
+
+        - task: AzureFunctionApp@1
+          inputs:
+              azureSubscription: '$(sub-id)'
+              appType: 'functionAppLinux'
+              appName: '$(functionappsalesname)'
+              package: '$(Pipeline.Workspace)/SalesService.zip'
+          
