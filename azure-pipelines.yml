@@ -52,10 +52,10 @@ stages:
   jobs: 
       - job: PublishToWebService
         steps:
-          - task: AzureWebApp@1
+          - task: AzureRmWebAppDeployment@4
             inputs:
-              azureSubscription: 'Visual Studio Enterprise-abonnement – MPN(ea953b5e-bb4c-46b2-885f-138630537914)'
-              appType: 'webApp'
-              appName: 'trevorwebapp'
-              # package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-              package: '$(Build.ArtifactStagingDirectory/**/RestAPI.zip)'
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Visual Studio Enterprise Subscription – MPN(ea953b5e-bb4c-46b2-885f-138630537914)'
+              appType: 'webAppLinux'
+              WebAppName: 'trevorwebapp'
+              packageForLinux: '$(Build.ArtifactStagingDirectory/**/RestAPI.zip'
