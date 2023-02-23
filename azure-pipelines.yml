@@ -55,7 +55,7 @@ stages:
           - task: AzureWebApp@1
             inputs:
               azureSubscription: '$(sub-id)'
-              appType: 'webAppLinux'
+              appType: 'webApp'
               appName: '$(web-app-name)'
               # package: '$(System.DefaultWorkingDirectory)/**/*.zip'
               package: '$(Build.ArtifactStagingDirectory/**/RestAPI.zip)'
