@@ -8,7 +8,7 @@ trigger:
 # - name: trevorWebAppName
 #   value: $[variables.trevorWebAppName]
 variables:
-- group: my-variable-group
+- group: TrevorVarGroup
 - name: my-passed-variable
   value: $[variables.myhello] # uses runtime expression
 
