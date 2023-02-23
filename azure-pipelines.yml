@@ -13,6 +13,8 @@ variables:
   value: $[variables.groupfunctionappbillingname] # get from Library group
 - name: functionappshippingname
   value: $[variables.groupfunctionappshippingname] # get from Library group
+- name: short-sub-id
+  value: $[variables.groupsubshortid] # get from Library group
 
       
 pool:
@@ -62,6 +64,18 @@ stages:
           displayName: 'Download Artifact'
           inputs:
             artifact: drop
+        - task: AzureResourceManagerTemplateDeployment@3
+          inputs:
+            deploymentScope: 'Resource Group'
+            azureResourceManagerConnection: '$(sub-id)'
+            subscriptionId: '$(short-sub-id)'
+            action: 'Create Or Update Resource Group'
+            resourceGroupName: 'ARM-Template'
+            location: 'West Europe'
+            templateLocation: 'Linked artifact'
+            csmFile: '$(Pipeline.Workspace)/azuredeploy.json'
+            csmParametersFile: '$(Pipeline.Workspace)/azuredeploy.parameters.json'
+            deploymentMode: 'Incremental'
         - task: AzureRmWebAppDeployment@4
           inputs:
               ConnectionType: 'AzureRM'
@@ -76,4 +90,5 @@ stages:
               appType: 'functionAppLinux'
               appName: '$(functionappsalesname)'
               package: '$(Pipeline.Workspace)/SalesService.zip'
+        
           
