@@ -58,4 +58,4 @@ stages:
               azureSubscription: 'Visual Studio Enterprise Subscription – MPN(ea953b5e-bb4c-46b2-885f-138630537914)'
               appType: 'webAppLinux'
               WebAppName: 'trevorwebapp'
-              packageForLinux: '$(Build.ArtifactStagingDirectory/**/RestAPI.zip'
+              packageForLinux: '$(Pipeline.Workspace)/RestAPI.zip'
