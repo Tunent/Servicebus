@@ -9,8 +9,8 @@ trigger:
 #   value: $[variables.trevorWebAppName]
 variables:
 - group: TrevorVarGroup
-- name: my-passed-variable
-  value: $[variables.myhello] # uses runtime expression
+- name: mySubId
+  value: $[variables.SubId] # get from Library group
 
       
 pool:
@@ -22,8 +22,10 @@ stages:
   jobs:
   - job: RestoreBuildAllProjects
     steps:
-    - script: echo $(myhello) # uses macro syntax
-    - script: echo $(my-passed-variable) 
+    - script: echo $(mySubId) # uses macro syntax
+    - script: echo $(SubId) 
+    - script: echo $(WebAppName) # uses macro syntax
+     
 #     - task: DotNetCoreCLI@2
 #       displayName: 'dotnet restore'
 #       inputs:
