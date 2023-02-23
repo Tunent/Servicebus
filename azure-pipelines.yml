@@ -41,7 +41,6 @@ stages:
   - job: Job1
     steps:
       - script: echo Hello Job1!
-    dependsOn: Job1
   - job: Job2
     steps:
       - script: echo Hello Job2!
