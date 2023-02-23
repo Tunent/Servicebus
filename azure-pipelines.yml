@@ -59,7 +59,7 @@ stages:
         - task: AzureRmWebAppDeployment@4
           inputs:
               ConnectionType: 'AzureRM'
-              azureSubscription: 'Visual Studio Enterprise Subscription – MPN(ea953b5e-bb4c-46b2-885f-138630537914)'
+              azureSubscription: '$(sub-id)'
               appType: 'webAppLinux'
-              WebAppName: 'trevorwebapp'
+              WebAppName: '$(webb-app-name)'
               packageForLinux: '$(Pipeline.Workspace)/RestAPI.zip'
