@@ -10,7 +10,7 @@ trigger:
 variables:
 - group: TrevorVarGroup
 - name: sub-id
-  value: $[variables.group-sub-id] # get from Library group
+  value: $[variables.groupsubid] # get from Library group
 - name: web-app-name
   value: $[variables.group-web-app-name] # get from Library group
 
