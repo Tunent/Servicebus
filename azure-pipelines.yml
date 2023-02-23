@@ -27,7 +27,7 @@ stages:
         publishWebProjects: false
         projects: '**/*.csproj'
         arguments: '--output $(Build.ArtifactStagingDirectory)'
-- stage: Copy and Publish Artifact
+- stage: Copy_and_Publish_Artifact
   jobs:
     - job: CopyPublishAllProjects
       steps:
