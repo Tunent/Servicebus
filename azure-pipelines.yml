@@ -61,5 +61,5 @@ stages:
               ConnectionType: 'AzureRM'
               azureSubscription: '$(sub-id)'
               appType: 'webAppLinux'
-              WebAppName: '$(webb-app-name)'
+              WebAppName: '$(web-app-name)'
               packageForLinux: '$(Pipeline.Workspace)/RestAPI.zip'
