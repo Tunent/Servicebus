@@ -1,6 +1,14 @@
 trigger:
 - master
 
+variables:
+- group: TrevorVarGroup
+- name: 
+    trevorSubId
+- name: 
+    trevorWebAppName
+
+
 pool:
   vmImage: ubuntu-latest
 
@@ -47,9 +55,9 @@ stages:
         steps:
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: '<Azure service connection>'
+              azureSubscription: $(trevorSubId)
               appType: 'webAppLinux'
-              appName: '<Name of web app>'
+              appName: $(trevorWebAppName)
               package: '$(System.DefaultWorkingDirectory)/**/*.zip'
         # - job: Job1
     #   steps:
