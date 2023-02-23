@@ -1,12 +1,17 @@
 trigger:
 - master
 
+# variables:
+# - group: TrevorVarGroup
+# - name: trevorSubId
+#   value: $[variables.trevorSubId]
+# - name: trevorWebAppName
+#   value: $[variables.trevorWebAppName]
 variables:
-- group: TrevorVarGroup
-- name: trevorSubId
-  value: $[variables.trevorSubId]
-- name: trevorWebAppName
-  value: $[variables.trevorWebAppName]
+- group: my-variable-group
+- name: my-passed-variable
+  value: $[variables.myhello] # uses runtime expression
+
       
 pool:
   vmImage: ubuntu-latest
@@ -17,6 +22,8 @@ stages:
   jobs:
   - job: RestoreBuildAllProjects
     steps:
+    - script: echo $(myhello) # uses macro syntax
+    - script: echo $(my-passed-variable) 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore'
       inputs:
