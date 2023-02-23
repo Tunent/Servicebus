@@ -3,12 +3,11 @@ trigger:
 
 variables:
 - group: TrevorVarGroup
-- name: 
-    trevorSubId
-- name: 
-    trevorWebAppName
-
-
+- name: trevorSubId
+  value: $[variables.trevorSubId]
+- name: trevorWebAppName
+  value: $[variables.trevorWebAppName]
+      
 pool:
   vmImage: ubuntu-latest
 
