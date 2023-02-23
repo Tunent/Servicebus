@@ -1,12 +1,6 @@
 trigger:
 - master
 
-# variables:
-# - group: TrevorVarGroup
-# - name: trevorSubId
-#   value: $[variables.trevorSubId]
-# - name: trevorWebAppName
-#   value: $[variables.trevorWebAppName]
 variables:
 - group: TrevorVarGroup
 - name: sub-id
@@ -24,58 +18,44 @@ stages:
   jobs:
   - job: RestoreBuildAllProjects
     steps:
-    - script: echo $(sub-id) # uses macro syntax
-    - script: echo $(web-app-name) 
-    # - script: echo $(WebAppName) # uses macro syntax
-     
-#     - task: DotNetCoreCLI@2
-#       displayName: 'dotnet restore'
-#       inputs:
-#         command: 'restore'
-#         projects: '**/*.csproj'
-#     - task: DotNetCoreCLI@2
-#       displayName: 'dotnet build'
-#       inputs:
-#         command: 'build'
-#         projects: '**/*.csproj'
-    
-#     - task: DotNetCoreCLI@2
-#       inputs:
-#         command: 'publish'
-#         publishWebProjects: false
-#         projects: '**/*.csproj'
-#         arguments: '--output $(Build.ArtifactStagingDirectory)'
-# # - stage: Copy_and_Publish_Artifact
-# #   jobs:
-# #     - job: CopyPublishAllProjects
-# #       steps:
-#     - task: CopyFiles@2
-#       inputs:
-#           SourceFolder: 'AzureResourceGroup1'
-#           Contents: '*.json'
-#           TargetFolder: '$(Build.ArtifactStagingDirectory)'
-#     - task: PublishBuildArtifacts@1
-#       inputs:
-#           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-#           ArtifactName: 'drop'
-#           publishLocation: 'Container'
-# - stage: Publish_to_web_servce
-#   jobs: 
-#       - job: PublishToWebService
-#         steps:
-#           - task: AzureWebApp@1
-#             inputs:
-#               azureSubscription: '$(trevorSubId)'
-#               appType: 'webAppLinux'
-#               appName: '$(trevorWebAppName)'
-#               # package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-#               package: '$(Build.ArtifactStagingDirectory/**/RestAPI.zip)'
-#         # - job: Job1
-    #   steps:
-    #     - script: echo Hello Job1!
-    # - job: Job2
-    #   steps:
-    #     - script: echo Hello Job2!
-    #   dependsOn: Job1
-
-      
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'  
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '**/*.csproj'
+        arguments: '--output $(Build.ArtifactStagingDirectory)'
+# - stage: Copy_and_Publish_Artifact
+#   jobs:
+#     - job: CopyPublishAllProjects
+#       steps:
+    - task: CopyFiles@2
+      inputs:
+          SourceFolder: 'AzureResourceGroup1'
+          Contents: '*.json'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+- stage: Publish_to_web_servce
+  jobs: 
+      - job: PublishToWebService
+        steps:
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: '$(sbu-id)'
+              appType: 'webAppLinux'
+              appName: '$(web-app-name)'
+              # package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              package: '$(Build.ArtifactStagingDirectory/**/RestAPI.zip)'
