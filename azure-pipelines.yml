@@ -12,7 +12,7 @@ variables:
 - name: sub-id
   value: $[variables.groupsubid] # get from Library group
 - name: web-app-name
-  value: $[variables.group-web-app-name] # get from Library group
+  value: $[variables.groupwebappname] # get from Library group
 
       
 pool:
