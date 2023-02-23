@@ -54,7 +54,7 @@ stages:
         steps:
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: '$(sbu-id)'
+              azureSubscription: '$(sub-id)'
               appType: 'webAppLinux'
               appName: '$(web-app-name)'
               # package: '$(System.DefaultWorkingDirectory)/**/*.zip'
