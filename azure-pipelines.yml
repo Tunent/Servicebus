@@ -51,14 +51,15 @@ stages:
           publishLocation: 'Container'
 - stage: Publish_to_web_servce
   jobs: 
-      - job: PublishToWebSerivce 
+      - job: PublishToWebService
         steps:
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: $(trevorSubId)
+              azureSubscription: '$(trevorSubId)'
               appType: 'webAppLinux'
-              appName: $(trevorWebAppName)
-              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              appName: '$(trevorWebAppName)'
+              # package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              package: '$(Build.ArtifactStagingDirectory/**/RestAPI.zip)'
         # - job: Job1
     #   steps:
     #     - script: echo Hello Job1!
