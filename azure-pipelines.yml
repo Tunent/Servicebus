@@ -52,8 +52,12 @@ stages:
   jobs: 
       - job: PublishToWebService
         steps:
-          - task: AzureRmWebAppDeployment@4
-            inputs:
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download Artifact'
+          inputs:
+            artifact: drop
+        - task: AzureRmWebAppDeployment@4
+          inputs:
               ConnectionType: 'AzureRM'
               azureSubscription: 'Visual Studio Enterprise Subscription – MPN(ea953b5e-bb4c-46b2-885f-138630537914)'
               appType: 'webAppLinux'
