@@ -1,33 +1,110 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+- master
 
+variables:
+- group: TrevorVarGroup
+- name: sub-id
+  value: $[variables.groupsubid] # get from Library group
+- name: web-app-name
+  value: $[variables.groupwebappname] # get from Library group
+- name: functionappsalesname
+  value: $[variables.groupfunctionappsalesname] # get from Library group
+- name: functionappbillingname
+  value: $[variables.groupfunctionappbillingname] # get from Library group
+- name: functionappshippingname
+  value: $[variables.groupfunctionappshippingname] # get from Library group
+- name: short-sub-id
+  value: $[variables.groupsubshortid] # get from Library group
+
+      
 pool:
-  vmImage: 'ubuntu-latest'
-steps:
-- script: |
-    dotnet restore
-    dotnet build --configuration Release
-- task: DotNetCoreCLI@2
-  inputs:
-    command: publish
-    arguments: '--configuration Release --output publish_output'
-    projects: '*.csproj'
-    publishWebProjects: false
-    modifyOutputPath: false
-    zipAfterPublish: false
-- task: ArchiveFiles@2
-  displayName: "Archive files"
-  inputs:
-    rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output"
-    includeRootFolder: false
-    archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
-    artifactName: 'drop'
+  vmImage: ubuntu-latest
 
+# Build projects
+stages:
+- stage: Build
+  jobs:
+  - job: RestoreBuildAllProjects
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'  
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '**/*.csproj'
+        arguments: '--output $(Build.ArtifactStagingDirectory)'
+# - stage: Copy_and_Publish_Artifact
+#   jobs:
+#     - job: CopyPublishAllProjects
+#       steps:
+    - task: CopyFiles@2
+      inputs:
+          SourceFolder: 'AzureResourceGroup1'
+          Contents: '*.json'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+- stage: Publish_to_web_servce
+  jobs: 
+      - job: PublishToWebService
+        steps:
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download Artifact'
+          inputs:
+            artifact: drop
+        - task: AzureResourceManagerTemplateDeployment@3
+          inputs:
+            deploymentScope: 'Resource Group'
+            azureResourceManagerConnection: '$(sub-id)'
+            subscriptionId: '$(short-sub-id)'
+            action: 'Create Or Update Resource Group'
+            resourceGroupName: 'ARM-Template'
+            location: 'West Europe'
+            templateLocation: 'Linked artifact'
+            csmFile: '$(Pipeline.Workspace)/azuredeploy.json'
+            csmParametersFile: '$(Pipeline.Workspace)/azuredeploy.parameters.json'
+            deploymentMode: 'Incremental'
+        - task: AzureRmWebAppDeployment@4
+          inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: '$(sub-id)'
+              appType: 'webAppLinux'
+              WebAppName: '$(web-app-name)'
+              packageForLinux: '$(Pipeline.Workspace)/RestAPI.zip'
+
+        - task: AzureFunctionApp@1
+          inputs:
+              azureSubscription: '$(sub-id)'
+              appType: 'functionAppLinux'
+              appName: '$(functionappsalesname)'
+              package: '$(Pipeline.Workspace)/SalesService.zip'
+        - task: AzureFunctionApp@1
+          inputs:
+              azureSubscription: '$(sub-id)'
+              appType: 'functionAppLinux'
+              appName: '$(functionappbillingname)'
+              package: '$(Pipeline.Workspace)/BillingService.zip'
+        - task: AzureFunctionApp@1
+          inputs:
+             azureSubscription: '$(sub-id)'
+             appType: 'functionAppLinux'
+             appName: '$(functionappshippingname)'
+             package: '$(Pipeline.Workspace)/ShippingService2.zip'
+        - task: AzureWebApp@1
+          inputs:
+            azureSubscription: '$(sub-id)'
+            appType: 'webAppLinux'
+            appName: '$(web-app-name)'
+            package: '$(Pipeline.Workspace)/RestAPI.zip'
