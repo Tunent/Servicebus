@@ -52,6 +52,18 @@
     },
     "applicationInsightsName": {
       "value": "trevorinsight"
+    },
+    "functionAppNameBilling": {
+      "value": "trevorbillingservice"
+    },
+    "functionAppNameShipping": {
+      "value": "trevorshippingservice"
+    },
+    "apiPlanName": {
+      "value": "trevorwebappplan"
+    },
+    "webAppName": {
+      "value": "trevorwebapp"
     }
    
   }
