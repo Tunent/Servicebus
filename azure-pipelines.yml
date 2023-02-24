@@ -56,7 +56,7 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
           publishLocation: 'Container'
-- stage: Publish_to_web_servce
+- stage: Publish_to_web_service
   jobs: 
       - job: PublishToWebService
         steps:
