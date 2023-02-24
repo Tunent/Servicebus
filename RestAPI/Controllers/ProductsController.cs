@@ -48,7 +48,7 @@ namespace RestAPI.Controllers
             // Setup ServiceBus communication
             ServiceBusClient client;
             ServiceBusSender sender;
-            var configuration = new ConfigurationManager().AddJsonFile("appsettings.json");
+            var configuration = new ConfigurationBuilder().AddJsonFile($"appsettings.json");
             var config = configuration.Build();
             var connectionString = config.GetConnectionString("ServiceBusConnectionString");
             client = new ServiceBusClient(connectionString);

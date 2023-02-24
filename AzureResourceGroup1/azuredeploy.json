@@ -233,7 +233,10 @@
         "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
         "enablePartitioning": false,
         "enableExpress": false
-      }
+      },
+      "dependsOn": [
+        "[parameters('serviceBusNamespaceName')]"
+      ]
     },
     {
       "type": "Microsoft.ServiceBus/namespaces/queues",
@@ -251,7 +254,10 @@
         "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
         "enablePartitioning": false,
         "enableExpress": false
-      }
+      },
+      "dependsOn": [
+        "[parameters('serviceBusNamespaceName')]"
+      ]
     },
     {
       "type": "Microsoft.ServiceBus/namespaces/queues",
@@ -269,7 +275,10 @@
         "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
         "enablePartitioning": false,
         "enableExpress": false
-      }
+      },
+      "dependsOn": [
+        "[parameters('serviceBusNamespaceName')]"
+      ]
     },
     {
       "type": "Microsoft.ServiceBus/namespaces/topics",
@@ -280,7 +289,10 @@
         "maxSizeInMegabytes": 1024,
         "status": "Active",
         "supportOrdering": true
-      }
+      },
+      "dependsOn": [
+        "[parameters('serviceBusNamespaceName')]"
+      ]
     },
     {
       "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
