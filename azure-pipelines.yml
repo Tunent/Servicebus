@@ -90,5 +90,12 @@ stages:
               appType: 'functionAppLinux'
               appName: '$(functionappsalesname)'
               package: '$(Pipeline.Workspace)/SalesService.zip'
+        - task: AzureFunctionApp@1
+          inputs:
+              azureSubscription: '$(sub-id)'
+              appType: 'functionAppLinux'
+              appName: '$(functionappbillingname)'
+              package: '$(Pipeline.Workspace)/BillingService.zip'
+          
         
           
