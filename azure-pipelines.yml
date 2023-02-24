@@ -102,5 +102,9 @@ stages:
              appType: 'functionAppLinux'
              appName: '$(functionappshippingname)'
              package: '$(Pipeline.Workspace)/ShippingService2.zip'
-        
-          
+        - task: AzureWebApp@1
+          inputs:
+            azureSubscription: '$(sub-id)'
+            appType: 'webAppLinux'
+            appName: '$(web-app-name)'
+            package: '$(Pipeline.Workspace)/RestAPI.zip'
