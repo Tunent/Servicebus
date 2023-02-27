@@ -54,7 +54,7 @@ namespace RestAPI.Controllers
             // Setup ServiceBus communication
             try
             {
-                var connectionString = _configuration.GetConnectionString("ServiceBusConnection2");
+                var connectionString = _configuration.GetConnectionString("ServiceBusConnectionTwo");
                 ServiceBusClient client = new ServiceBusClient(connectionString);
                 // retrieve App Service connection string
                 ServiceBusSender sender = client.CreateSender("trevortopic");
