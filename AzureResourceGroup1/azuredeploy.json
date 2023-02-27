@@ -415,13 +415,11 @@
       "location": "West Europe",
       "sku": {
         "name": "Y1",
-        "tier": "Dynamic",
-        "size": "Y1",
-        "family": "Y"
-      },
-      "properties": {
-        "reserved": true
+        "tier": "Dynamic"
       }
+      //"properties": {
+      //  "reserved": true
+      //}
     },
     {
       "type": "Microsoft.Web/serverfarms",
@@ -429,14 +427,12 @@
       "name": "[parameters('apiPlanName')]",
       "location": "West Europe",
       "sku": {
-        "name": "F1",
-        "tier": "Dynamic",
-        "size": "F1",
-        "family": "F"
-      },
-      "properties": {
-        "reserved": true
+        "name": "B1",
+        "tier": "Dynamic"
       }
+      //"properties": {
+      //  "reserved": true
+      //}
     },
     {
       "type": "Microsoft.Web/sites",
@@ -448,7 +444,7 @@
         "httpsOnly": true,
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('apiPlanName'))]",
         "siteConfig": {
-          "linuxFxVersion": "DOTNETCORE|6.0",
+          //"linuxFxVersion": "DOTNETCORE|6.0",
           "minTlsVersion": "1.2",
           "ftpsState": "FtpsOnly"
         }
