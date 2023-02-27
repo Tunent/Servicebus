@@ -9,7 +9,7 @@ namespace RestAPI
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
 
-            builder.Configuration.AddAzureKeyVault(new Uri("https://trevorkeyvault.vault.azure.net/"), new DefaultAzureCredential());
+            builder.Configuration.AddAzureKeyVault(new Uri("https://trevorkeyvault2.vault.azure.net/"), new DefaultAzureCredential());
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
