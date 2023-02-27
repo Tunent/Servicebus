@@ -10,6 +10,12 @@ namespace RestAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private IConfiguration _configuration;
+
+        public ProductController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         private static readonly Product[] Products = new[]
         {
             new Product() { Name = "Book", Price = 9.99M, Manufacturer = "O'Reilly" },
@@ -26,12 +32,12 @@ namespace RestAPI.Controllers
 
         // POST: api/<ProductController>/order
         [HttpPost("order")]
-        public async Task OrderProductAsync(string productName)
+        public async Task<IActionResult> OrderProductAsync(string productName)
         {
             var product = Products.FirstOrDefault(x => x.Name == productName);
             if (product is null)
             {
-                throw new ArgumentException("Dit product bestaat niet");
+                return new NotFoundObjectResult($"Product {productName} not found in catalogue.");
             }
 
             // Create serialised ServiceBusMessage object
@@ -46,28 +52,24 @@ namespace RestAPI.Controllers
             serviceBusMessage.ApplicationProperties.Add("Type", "PlaceOrder");
 
             // Setup ServiceBus communication
-            ServiceBusClient client;
-            ServiceBusSender sender;
-            var configuration = new ConfigurationBuilder().AddJsonFile($"appsettings.json");
-            var config = configuration.Build();
-            var connectionString = config.GetConnectionString("ServiceBusConnectionString");
-            client = new ServiceBusClient(connectionString);
-            sender = client.CreateSender("trevortopic");
-
-            // Create a batch and send message
-            using ServiceBusMessageBatch messageBatch = await sender.CreateMessageBatchAsync();
-            messageBatch.TryAddMessage(serviceBusMessage);
-
             try
             {
+                var connectionString = _configuration.GetConnectionString("ServiceBusConnectionString");
+                ServiceBusClient client = new ServiceBusClient(connectionString);
+                // retrieve App Service connection string
+                ServiceBusSender sender = client.CreateSender("trevortopic");
+
+                // Create a batch and send message
+                using ServiceBusMessageBatch messageBatch = await sender.CreateMessageBatchAsync();
+                messageBatch.TryAddMessage(serviceBusMessage);
+
                 await sender.SendMessagesAsync(messageBatch);
+
+                return new OkResult();
             }
-            finally
+            catch (Exception ex)
             {
-                // Calling DisposeAsync on client types is required to ensure that network
-                // resources and other unmanaged objects are properly cleaned up.
-                await sender.DisposeAsync();
-                await client.DisposeAsync();
+                return new BadRequestObjectResult(ex);
             }
         }
     }

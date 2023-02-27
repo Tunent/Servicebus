@@ -1,3 +1,5 @@
+using Azure.Identity;
+
 namespace RestAPI
 {
     public class Program
@@ -5,8 +7,9 @@ namespace RestAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
+
+            builder.Configuration.AddAzureKeyVault(new Uri("https://trevorkeyvault.vault.azure.net/"), new DefaultAzureCredential());
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,7 +31,6 @@ namespace RestAPI
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
