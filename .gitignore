@@ -366,3 +366,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /.vs/FunctionApp1/v17/.suo
 /SalesService/Properties/serviceDependencies.json
+/RestAPI/appsettings.local.json
